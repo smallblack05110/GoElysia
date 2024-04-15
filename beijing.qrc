@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/beijing">
+        <file>image/116248116_p0_master1200.webp</file>
+        <file>image/116773173_p0_square1200.webp</file>
+        <file>image/Aili1.png.jpg</file>
+        <file>image/Aili2.jpg</file>
+        <file>image/Aili2.png</file>
+        <file>image/Aili3.png</file>
+        <file>image/Aili4.png</file>
+        <file>image/aili5.png</file>
+        <file>image/ailijumping.png</file>
+        <file>image/ailirushing.png</file>
+        <file>image/aimen.png</file>
+        <file>image/b1e81c5b4ab3f459f0fc23383ca0fe0f_2145592874935644672.jpg</file>
+        <file>image/beijing1.jpg</file>
+        <file>image/beijing2.jpg</file>
+        <file>image/beijing3.png</file>
+        <file>image/beijing3.webp</file>
+        <file>image/beijing4.jpg</file>
+        <file>image/beijing5.jpg</file>
+        <file>image/btn1.png</file>
+        <file>image/btn2.png</file>
+        <file>image/btn3.png</file>
+        <file>image/btn4.png</file>
+        <file>image/btn5.png</file>
+        <file>image/Cache_79a082ef5432902c..jpg</file>
+        <file>image/ground.png</file>
+        <file>image/ground1.png</file>
+        <file>image/Image_1710426253024.jpg</file>
+        <file>image/images (1).jpeg</file>
+        <file>image/images.jpeg</file>
+        <file>image/images.jpg</file>
+        <file>image/pribtn.jpg</file>
+        <file>image/pribtn.png</file>
+        <file>image/QQ图片20240319213524.jpg</file>
+        <file>image/stabtn.png</file>
+        <file>image/u_1597392067_3239504213&amp;fm_253&amp;app_138&amp;f_JPEG.jpeg</file>
+        <file>image/wangshiletu.jpg</file>
+        <file>image/wangshiletu2.jpg</file>
+        <file>image/下载.jpeg</file>
+    </qresource>
+</RCC>
