@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     aili.cpp \
+    barriers.cpp \
     first_cham.cpp \
     ground.cpp \
     main.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     aili.h \
+    barriers.h \
     first_cham.h \
     ground.h \
     mainwindow.h \

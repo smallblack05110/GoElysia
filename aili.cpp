@@ -43,8 +43,8 @@ void aili::jump()
     // 获取当前位置
     int currentY = aili_Rect.y();
 
-    // 计算目标位置（向上移动 260 个像素）
-    int targetY = currentY - 260;
+    // 计算目标位置（向上移动 300 个像素）
+    int targetY = currentY - 300;
 
     // 创建一个定时器，用于控制跳跃动作的上升阶段
     QTimer *riseTimer = new QTimer(this);
@@ -75,12 +75,11 @@ void aili::jump()
                 }
                 QPixmap pixmap(":/beijing/image/aili5.png");
                 aili_pixmap = pixmap.scaled(aili_Rect.size(), Qt::KeepAspectRatio);
-//                aili_pixmap = pixmap;
 
             });
 
             // 启动下降定时器，控制下降动作
-            fallTimer->start(30); // 每 30 毫秒移动一次
+            fallTimer->start(40); // 每 40 毫秒移动一次
         }
 
 

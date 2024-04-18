@@ -8,8 +8,11 @@
 #include <QPainter>
 #include <QIcon>
 #include <QKeyEvent>
+#include <QDebug>
+#include <QVector>
 #include "ground.h"
 #include "aili.h"
+#include "barriers.h"
 
 class first_cham : public QWidget
 {
@@ -17,11 +20,18 @@ class first_cham : public QWidget
 
 public:
     explicit first_cham(QWidget *parent = nullptr);
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    QTimer add_Barrier;
+    QTimer barrier_timer;
+    QTimer updateTimer;
     Grounds *grounds; // 地面对象指针
     aili *ailiObject;
+    diedPeople *die1;
+    QVector<barriers*>barriers;//管理屏幕中的障碍物
     void updateGround();
+    void updatebarriers();
+    void storeBarriers();
     ~first_cham();
 
 private slots:
