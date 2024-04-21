@@ -44,7 +44,7 @@ first_cham::first_cham(QWidget *parent) : QWidget(parent)
     updateTimer.start();
     connect(&updateTimer,&QTimer::timeout,[=](){
         updatebarriers();    //更新坐标
-//        collisionDetection();  //碰撞检测
+        ifCollision();  //碰撞检测
         update();          //刷新屏幕
     });
 
@@ -165,5 +165,59 @@ void first_cham::storeBarriers(){                        //生成障碍物
         break;
     default:
         break;
+    }
+}
+
+void first_cham::ifCollision(){
+    int j=0;
+    for(int i = 0; i < barriers.size();){
+        j=barriers[i]->ifCollision(ailiObject->aili_Rect);
+        switch (j) {
+        case 0:                       //无碰撞
+            i++;
+            break;
+        case 1:{                      //障碍物
+            i++;
+            gameOver();
+            break;
+        }
+}
+}
+}
+
+void first_cham::gameStart(){
+    for(int i=0;i<10;i++)
+    {
+        grounds->grounds[i].ground_scroll_speed=20;
+    }
+    add_Barrier.start();
+    barrier_timer.start();
+    updateTimer.start();
+    connect(&updateTimer,&QTimer::timeout,[=](){
+        updatebarriers();    //更新坐标
+        ifCollision();  //碰撞检测
+        update();          //刷新屏幕
+    });
+}
+void first_cham::gameOver(){
+    for(int i=0;i<10;i++)
+    {
+        grounds->grounds[i].setScrollSpeed(0);
+    }
+    add_Barrier.stop();
+    barrier_timer.stop();
+    updateTimer.stop();
+    showRestartDialog(this);
+}
+
+void first_cham::showRestartDialog(QWidget *parent) {
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(parent, "游戏结束", "是否重新开始游戏？",
+                                  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+      gameStart();
+    } else {
+        emit restartGameSignal();
+        this->hide();
     }
 }

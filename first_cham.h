@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QVector>
+#include <QMessageBox>
 #include "ground.h"
 #include "aili.h"
 #include "barriers.h"
@@ -32,7 +33,13 @@ public:
     void updateGround();
     void updatebarriers();
     void storeBarriers();
+    void gameOver();
+    void gameStart();
+    void ifCollision();
+    void showRestartDialog(QWidget *parent);
     ~first_cham();
+signals:
+    void restartGameSignal();
 
 private slots:
     void changeBackground();

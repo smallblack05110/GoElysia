@@ -93,8 +93,8 @@ void aili::rush()
 {
     if(isRushing==false)
 {
-    aili_Rect.setHeight(300);
-     aili_Rect.setWidth(600);
+    aili_Rect.setHeight(410);
+     aili_Rect.setWidth(300);
      QPixmap rushingPixmap(":/beijing/image/ailirushing.png");
      aili_pixmap = rushingPixmap.scaled(aili_Rect.size(), Qt::KeepAspectRatio);
      aili_Rect.moveTo(50,560);

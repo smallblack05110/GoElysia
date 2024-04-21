@@ -51,10 +51,12 @@ startwindow::startwindow(QWidget *parent) : QWidget(parent)
     first->resize(200,100);
     first->move(615,700);
     connect(letu, &QPushButton::clicked, this, &startwindow::onFirstclicked);
+    connect(&fir, &first_cham::restartGameSignal, this, &startwindow::showStartWindow);
 
 }
 startwindow::~startwindow()
 {
+
 }
 void startwindow::paintEvent(QPaintEvent *event)
 {
@@ -69,5 +71,8 @@ void startwindow::onFirstclicked()
 {
     this->hide();
     fir.show();
-
+}
+void startwindow::showStartWindow()
+{
+  this->show();
 }

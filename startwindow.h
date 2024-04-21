@@ -21,6 +21,7 @@ public:
     first_cham fir;
     void onReturnclicked();
     void onFirstclicked();
+    void showStartWindow();
     void paintEvent(QPaintEvent *event);
     ~startwindow();
 

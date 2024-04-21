@@ -48,6 +48,18 @@ QPixmap diedPeople::getPixmap()
     return img;
 }
 
+int diedPeople::ifCollision(QRect r) {
+    // 调整矩形的宽度和高度
+    QRect adjustedRect(r.x() + 250, r.y()+300, r.width() - 250, r.height()-400);
+    // 调整 barrier 的大小和位置
+    QRect adjustedRect2(barrier.x()+100,barrier.y()+200, barrier.width() - 100, barrier.height()-200);
+    // 进行相交检测
+    if (adjustedRect2.intersects(adjustedRect)) {
+        return 1; // 相交
+    } else {
+        return 0; // 不相交
+    }
+}
 hongkaimonster::hongkaimonster()
 {
     std::time_t currentTime = std::time(nullptr);
@@ -79,7 +91,7 @@ hongkaimonster::hongkaimonster()
         barrier.setWidth(300);
         barrier.setHeight(450);
         img = img.scaled(barrier.size(), Qt::KeepAspectRatio);
-        barrier.moveTo(w+50,h-200);
+        barrier.moveTo(w+50,h-170);
 }
 void hongkaimonster::updatePosition(){
     w-=speed;
@@ -93,4 +105,17 @@ QPixmap hongkaimonster::getPixmap()
 {
     return img;
 }
-
+int hongkaimonster::ifCollision(QRect r) {
+    // 调整矩形的宽度和高度
+    QRect adjustedRect(r.x() + 250, r.y()+400, r.width() - 250, r.height()-400);
+    qDebug() << "Adjusted Rectangle 1:" << adjustedRect; // 输出调整后的矩形1的位置和大小
+    // 调整 barrier 的大小和位置
+    QRect adjustedRect2(barrier.x()+280,barrier.y(), barrier.width() - 280, barrier.height()+220);
+     qDebug() << "Adjusted Rectangle 2:" << adjustedRect; // 输出调整后的矩形1的位置和大小
+    // 进行相交检测
+    if (adjustedRect2.intersects(adjustedRect)) {
+        return 1; // 相交
+    } else {
+        return 0; // 不相交
+    }
+}

@@ -11,7 +11,7 @@ class barriers : public QObject
 public:
     explicit barriers(QObject *parent = nullptr);
     virtual void updatePosition()=0;
-//    virtual QPixmap loadPixmap()=0;
+    virtual int ifCollision(QRect)=0;
     virtual bool ifGoOut()=0;
     virtual QPixmap getPixmap()=0;
     int w, h;
@@ -28,8 +28,8 @@ class diedPeople : public barriers
 public:
     diedPeople();
     virtual void updatePosition();
-//    virtual QPixmap loadPixmap();
     virtual bool ifGoOut();
+    virtual int ifCollision(QRect);
     virtual QPixmap getPixmap();
 };
 
@@ -38,7 +38,7 @@ class hongkaimonster : public barriers
 public:
     hongkaimonster();
     virtual void updatePosition();
-//    virtual QPixmap loadPixmap();
+    virtual int ifCollision(QRect);
     virtual bool ifGoOut();
     virtual QPixmap getPixmap();
 };
