@@ -42,4 +42,13 @@ public:
     virtual bool ifGoOut();
     virtual QPixmap getPixmap();
 };
+class thirteenheroes : public barriers
+{
+public:
+    thirteenheroes();
+    virtual void updatePosition();
+    virtual int ifCollision(QRect);
+    virtual bool ifGoOut();
+    virtual QPixmap getPixmap();
+};
 #endif // BARRIERS_H

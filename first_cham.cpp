@@ -14,39 +14,29 @@ first_cham::first_cham(QWidget *parent) : QWidget(parent)
     backgrounds.append(QPixmap(":/beijing/image/beijing3.webp"));
     backgrounds.append(QPixmap(":/beijing/image/beijing4.jpg"));
     backgrounds.append(QPixmap(":/beijing/image/beijing5.jpg"));
-
-
-    // 创建定时器并连接槽函数
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &first_cham::changeBackground);
-    timer->start(15000); // 15秒触发一次
-
-    // 设置窗口背景
     updateBackground();
 
-    grounds = new Grounds();
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &first_cham::updateGround);
-    timer->start(50); // 每50毫秒更新一次地面
+    // 创建定时器并连接槽函数
 
-    ailiObject = new aili(this);
-    ailiObject->setPosition(50,470);
-
+    updatebackgroundTimer.setInterval(15000);
+    connect(&updatebackgroundTimer, &QTimer::timeout, this, &first_cham::changeBackground);
+    updatebackgroundTimer.start(15000); // 15秒触发一次
     add_Barrier.setInterval(2000);
-    add_Barrier.start();
     connect(&add_Barrier,&QTimer::timeout,[=](){
         storeBarriers();
     });
     barrier_timer.setInterval(3500);
-    barrier_timer.start();
-
     updateTimer.setInterval(40);
-    updateTimer.start();
-    connect(&updateTimer,&QTimer::timeout,[=](){
-        updatebarriers();    //更新坐标
-        ifCollision();  //碰撞检测
-        update();          //刷新屏幕
-    });
+    updategroundTimer.setInterval(50);
+    connect(&updategroundTimer, &QTimer::timeout, this, &first_cham::updateGround);
+    dialogueTimer.setInterval(7500);
+    powerTimer.setInterval(3000);
+    connect(&powerTimer, &QTimer::timeout, this, &first_cham::increasePower);
+
+    grounds = new Grounds();
+    dialogueWidget = new Dialogue1(this); // 创建 Dialogue1 对象
+    dialogueWidget->setParent(this);
+    dialogueWidget->startDialog();
 
 }
 
@@ -94,7 +84,6 @@ void first_cham::paintEvent(QPaintEvent *event)
 
     // 绘制障碍物
     for (auto& obstacle : barriers) {
-//        qDebug() << "Obstacle position:" << obstacle->barrier.topLeft();
            painter.drawPixmap(obstacle->barrier.topLeft(), obstacle->getPixmap());
     }
 }
@@ -155,12 +144,21 @@ void first_cham:: keyPressEvent(QKeyEvent *event)
 
 void first_cham::storeBarriers(){                        //生成障碍物
     srand((unsigned int)time(NULL));
-    int i=rand()%2;
+    int i=rand()%5;
     switch (i) {
     case 0:
         barriers.append(new diedPeople);
         break;
     case 1:
+        barriers.append(new hongkaimonster);
+        break;
+    case 2:
+        barriers.append(new thirteenheroes);
+        break;
+    case 3:
+        barriers.append(new diedPeople);
+        break;
+    case 4:
         barriers.append(new hongkaimonster);
         break;
     default:
@@ -169,30 +167,54 @@ void first_cham::storeBarriers(){                        //生成障碍物
 }
 
 void first_cham::ifCollision(){
-    int j=0;
+    int j = 0;
     for(int i = 0; i < barriers.size();){
-        j=barriers[i]->ifCollision(ailiObject->aili_Rect);
+        j = barriers[i]->ifCollision(ailiObject->aili_Rect);
         switch (j) {
-        case 0:                       //无碰撞
+        case 0:                       // 无碰撞
             i++;
             break;
-        case 1:{                      //障碍物
+        case 1:                       // 障碍物
             i++;
             gameOver();
             break;
+        case 2:                       // thirteenheroes
+            if(power+30<=100)
+            {
+                power+=30;
+            }
+            else
+                power=100;
+
+            i++;
+            break;
         }
+    }
 }
-}
+
+void first_cham::increasePower()
+{
+    if(power+5<=100)
+        power+=5;
+    else
+        power=100;
 }
 
 void first_cham::gameStart(){
+    barriers.clear();
+    ailiObject = new aili(this);
+    ailiObject->setPosition(50,470);
     for(int i=0;i<10;i++)
     {
         grounds->grounds[i].ground_scroll_speed=20;
     }
+    power=0;
+
     add_Barrier.start();
     barrier_timer.start();
     updateTimer.start();
+    updatebackgroundTimer.start();
+     updategroundTimer.start();
     connect(&updateTimer,&QTimer::timeout,[=](){
         updatebarriers();    //更新坐标
         ifCollision();  //碰撞检测
@@ -207,6 +229,7 @@ void first_cham::gameOver(){
     add_Barrier.stop();
     barrier_timer.stop();
     updateTimer.stop();
+    updatebackgroundTimer.stop();
     showRestartDialog(this);
 }
 
@@ -218,6 +241,6 @@ void first_cham::showRestartDialog(QWidget *parent) {
       gameStart();
     } else {
         emit restartGameSignal();
-        this->hide();
+        QWidget::close();
     }
 }

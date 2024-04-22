@@ -71,6 +71,7 @@ void startwindow::onFirstclicked()
 {
     this->hide();
     fir.show();
+    fir.gameStart();
 }
 void startwindow::showStartWindow()
 {

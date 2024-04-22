@@ -51,5 +51,10 @@
         <file>image/hongkaimonster2.png</file>
         <file>image/hongkaimonster3.png</file>
         <file>image/hongkaimonster4.png</file>
+        <file>image/thirteenheroes1.png</file>
+        <file>image/thirteenheroes2.png</file>
+        <file>image/thirteenheroes3.png</file>
+        <file>image/thirteenheroes4.png</file>
+        <file>image/thirteenheroes5.png</file>
     </qresource>
 </RCC>

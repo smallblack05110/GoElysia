@@ -50,9 +50,9 @@ QPixmap diedPeople::getPixmap()
 
 int diedPeople::ifCollision(QRect r) {
     // 调整矩形的宽度和高度
-    QRect adjustedRect(r.x() + 250, r.y()+300, r.width() - 250, r.height()-400);
+    QRect adjustedRect(r.x() + 220, r.y()+300, r.width() - 220, r.height()-400);
     // 调整 barrier 的大小和位置
-    QRect adjustedRect2(barrier.x()+100,barrier.y()+200, barrier.width() - 100, barrier.height()-200);
+    QRect adjustedRect2(barrier.x()+70,barrier.y()+200, barrier.width() - 70, barrier.height()-200);
     // 进行相交检测
     if (adjustedRect2.intersects(adjustedRect)) {
         return 1; // 相交
@@ -107,14 +107,73 @@ QPixmap hongkaimonster::getPixmap()
 }
 int hongkaimonster::ifCollision(QRect r) {
     // 调整矩形的宽度和高度
-    QRect adjustedRect(r.x() + 250, r.y()+400, r.width() - 250, r.height()-400);
-    qDebug() << "Adjusted Rectangle 1:" << adjustedRect; // 输出调整后的矩形1的位置和大小
+    QRect adjustedRect(r.x()+250, r.y()+400, r.width() -180, r.height()-400);
     // 调整 barrier 的大小和位置
     QRect adjustedRect2(barrier.x()+280,barrier.y(), barrier.width() - 280, barrier.height()+220);
-     qDebug() << "Adjusted Rectangle 2:" << adjustedRect; // 输出调整后的矩形1的位置和大小
     // 进行相交检测
     if (adjustedRect2.intersects(adjustedRect)) {
         return 1; // 相交
+    } else {
+        return 0; // 不相交
+    }
+}
+
+thirteenheroes::thirteenheroes()
+{
+    std::time_t currentTime = std::time(nullptr);
+        // 将当前时间作为种子传递给随机数生成函数
+        std::srand(static_cast<unsigned int>(currentTime));
+        // 生成一个随机数，范围在 0 到 2 之间
+        int randomNumber = std::rand() % 6;
+        // 根据随机数选择对应的图片
+        switch (randomNumber)
+        {
+        case 0:
+            img.load(":/beijing/image/thirteenheroes1.png");
+            break;
+        case 1:
+            img.load(":/beijing/image/thirteenheroes2.png");
+            break;
+        case 2:
+            img.load(":/beijing/image/thirteenheroes3.png");
+            break;
+        case 3:
+            img.load(":/beijing/image/thirteenheroes4.png");
+            break;
+        case 4:
+            img.load(":/beijing/image/thirteenheroes5.png");
+            break;
+        default:
+            // 默认情况，不做任何操作
+            break;
+        }
+        w=1400;
+        h=470;
+        barrier.setWidth(300);
+        barrier.setHeight(500);
+        img = img.scaled(barrier.size(), Qt::KeepAspectRatio);
+        barrier.moveTo(w+30,h);
+}
+void thirteenheroes::updatePosition(){
+    w-=speed;
+    barrier.moveTo(w+30,h);
+}
+bool thirteenheroes::ifGoOut()
+{
+    return w<-img.width();
+}
+QPixmap thirteenheroes::getPixmap()
+{
+    return img;
+}
+int thirteenheroes::ifCollision(QRect r) {
+    // 调整矩形的宽度和高度
+    QRect adjustedRect(r.x()+250, r.y()+400, r.width() -180, r.height()-400);
+    // 调整 barrier 的大小和位置
+    QRect adjustedRect2(barrier.x()+250,barrier.y()+400, barrier.width() - 180, barrier.height()-400);
+    // 进行相交检测
+    if (adjustedRect2.intersects(adjustedRect)) {
+        return 2; // 相交
     } else {
         return 0; // 不相交
     }
