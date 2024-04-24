@@ -42,7 +42,6 @@ private slots:
             label->setText(" ");
             // 对话结束时停止定时器，并发出对话结束信号
             timer->stop();
-            this->hide();
             emit dialogueFinished();
         }
     }
@@ -50,11 +49,9 @@ private slots:
 private:
     QLabel *label;
     QStringList dialogs = {
-        "爱莉希雅：通过计算，我已经找到了世界泡与世界泡之间最薄弱的连接点。",
-        "爱莉希雅：只要前往计算所得地点，理论上我就能够打破世界泡之间的连接。",
-        "爱莉希雅：这样，我就能够见到舰长了！",
         "爱莉希雅：前方检测到大量崩坏兽能量。",
         "爱莉希雅：要冲了，舰长！"
+        "爱莉希雅：当能量值满时，可以按x释放终极技能！"
     };
     int currentDialogIndex = -1;
     QTimer *timer;

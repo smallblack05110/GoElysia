@@ -52,7 +52,7 @@ int diedPeople::ifCollision(QRect r) {
     // 调整矩形的宽度和高度
     QRect adjustedRect(r.x() + 220, r.y()+300, r.width() - 220, r.height()-400);
     // 调整 barrier 的大小和位置
-    QRect adjustedRect2(barrier.x()+70,barrier.y()+200, barrier.width() - 70, barrier.height()-200);
+    QRect adjustedRect2(barrier.x()+70,barrier.y()+200, barrier.width() - 70, barrier.height()-190);
     // 进行相交检测
     if (adjustedRect2.intersects(adjustedRect)) {
         return 1; // 相交
@@ -109,7 +109,7 @@ int hongkaimonster::ifCollision(QRect r) {
     // 调整矩形的宽度和高度
     QRect adjustedRect(r.x()+250, r.y()+400, r.width() -180, r.height()-400);
     // 调整 barrier 的大小和位置
-    QRect adjustedRect2(barrier.x()+280,barrier.y(), barrier.width() - 280, barrier.height()+220);
+    QRect adjustedRect2(barrier.x()+280,barrier.y()-300, barrier.width() - 280, barrier.height()+520);
     // 进行相交检测
     if (adjustedRect2.intersects(adjustedRect)) {
         return 1; // 相交

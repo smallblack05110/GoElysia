@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     Init();
     connect(sta.return1, &QPushButton::clicked, this, &MainWindow::showMainWindow);
+    introduceWindow = new Introduce;
+
 }
 void MainWindow::paintEvent(QPaintEvent *event)
 {
@@ -84,6 +86,9 @@ void MainWindow::Init()
         "border-color:#800080;"
         "border-style: outset;"
                     );
+
+        // 连接游戏介绍按钮的点击事件和槽函数
+        connect(prod, &QPushButton::clicked, this, &MainWindow::onIntroClicked);
         QPushButton *exit=new QPushButton;
         exit->setParent(this);
         exit->setText("      退出游戏");//使文本和图标保持距离
@@ -143,9 +148,17 @@ void MainWindow::onStaClicked()
     sta.show();
 }
 
+void MainWindow::onIntroClicked()
+{
+
+    introduceWindow->show();
+
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
+         delete introduceWindow;
 }
 
 void MainWindow::showMainWindow()

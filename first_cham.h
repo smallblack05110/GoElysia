@@ -34,6 +34,7 @@ public:
     QTimer updategroundTimer;
     QTimer dialogueTimer;
     QTimer powerTimer;
+    bool isProtected;
     Grounds *grounds; // 地面对象指针
     aili *ailiObject;
     diedPeople *die1;

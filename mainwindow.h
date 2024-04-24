@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "startwindow.h"
+#include "introduce.h"
 #include <QMainWindow>
 #include <QPushButton>
 #include <QPainter>
@@ -20,11 +21,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     startwindow sta;
+    Introduce *introduceWindow;
     void Init();
     void paintEvent(QPaintEvent *event);
     void showMainWindow();
     void onExitClicked();
     void onStaClicked();
+    void onIntroClicked();
     ~MainWindow();
 
 private:

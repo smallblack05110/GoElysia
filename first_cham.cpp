@@ -86,6 +86,12 @@ void first_cham::paintEvent(QPaintEvent *event)
     for (auto& obstacle : barriers) {
            painter.drawPixmap(obstacle->barrier.topLeft(), obstacle->getPixmap());
     }
+    painter.setPen(Qt::black);
+       QFont font = painter.font();
+       font.setPointSize(20); // 设置字体大小
+       font.setBold(true);
+       painter.setFont(font);
+       painter.drawText(width() - 200, 50, QString("Power: %1").arg(power)); // 在右上角绘制 power 的数值
 }
 void first_cham::updateGround()
 {
@@ -138,8 +144,41 @@ void first_cham:: keyPressEvent(QKeyEvent *event)
         });
         }
         ailiObject->rush();
-
        }
+    if (event->key() == Qt::Key_X && power == 100) {
+        if (!ailiObject->isTricking) {
+            power = 0;
+            powerTimer.stop();
+            ailiObject->trick();
+
+            // 检查碰撞并删除相应物体
+            for (int i = 0; i < barriers.size(); ++i) {
+                if (barriers[i]->ifCollision(ailiObject->aili_Rect) == 1) {
+                    delete barriers[i];
+                    barriers.remove(i);
+                    --i; // 因为删除了元素，需要将索引回退
+                }
+            }
+
+            for (int i = 0; i < 10; ++i) {
+                grounds->grounds[i].setScrollSpeed(40);
+            }
+            for (int i = 0; i < barriers.size(); ++i) {
+                barriers[i]->speed = 40;
+            }
+
+            QTimer::singleShot(10000, this, [=]() {
+                for (int i = 0; i < 10; ++i) {
+                    grounds->grounds[i].setScrollSpeed(20);
+                }
+                for (int i = 0; i < barriers.size(); ++i) {
+                    barriers[i]->speed = 20;
+                }
+                powerTimer.start();
+                ailiObject->isTricking = false;
+            });
+        }
+    }
 }
 
 void first_cham::storeBarriers(){                        //生成障碍物
@@ -167,31 +206,31 @@ void first_cham::storeBarriers(){                        //生成障碍物
 }
 
 void first_cham::ifCollision(){
-    int j = 0;
-    for(int i = 0; i < barriers.size();){
-        j = barriers[i]->ifCollision(ailiObject->aili_Rect);
-        switch (j) {
-        case 0:                       // 无碰撞
-            i++;
-            break;
-        case 1:                       // 障碍物
-            i++;
-            gameOver();
-            break;
-        case 2:                       // thirteenheroes
-            if(power+30<=100)
-            {
-                power+=30;
+    if (!ailiObject->isTricking) {
+        for (int i = 0; i < barriers.size();) {
+            int collisionResult = 0;
+            collisionResult = barriers[i]->ifCollision(ailiObject->aili_Rect);
+            switch (collisionResult) {
+                case 0: // 无碰撞
+                    ++i;
+                    break;
+                case 1: // 障碍物
+                    gameOver();
+                    collisionResult=0;
+                    break;
+                case 2: // thirteenheroes
+                    if (power + 20 <= 100) {
+                        power += 20;
+                    } else {
+                        power = 100;
+                    }
+                    delete barriers[i]; // 删除碰撞的 barrier 对象
+                    barriers.remove(i); // 从向量中移除 barrier
+                    break;
             }
-            else
-                power=100;
-
-            i++;
-            break;
         }
     }
 }
-
 void first_cham::increasePower()
 {
     if(power+5<=100)
@@ -215,6 +254,7 @@ void first_cham::gameStart(){
     updateTimer.start();
     updatebackgroundTimer.start();
      updategroundTimer.start();
+     powerTimer.start();
     connect(&updateTimer,&QTimer::timeout,[=](){
         updatebarriers();    //更新坐标
         ifCollision();  //碰撞检测
@@ -237,10 +277,12 @@ void first_cham::showRestartDialog(QWidget *parent) {
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(parent, "游戏结束", "是否重新开始游戏？",
                                   QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-      gameStart();
-    } else {
+    if (reply == QMessageBox::Yes)
+    {
+        gameStart();
+    }
+    else {
         emit restartGameSignal();
-        QWidget::close();
+                QWidget::close();
     }
 }
