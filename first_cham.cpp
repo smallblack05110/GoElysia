@@ -10,7 +10,7 @@ first_cham::first_cham(QWidget *parent) : QWidget(parent)
 
     // 加载背景图片
     backgrounds.append(QPixmap(":/beijing/image/beijing1.jpg"));
-    backgrounds.append(QPixmap(":/beijing/image/beijing2.jpg"));
+    backgrounds.append(QPixmap(":/beijing/image/beijing2.png"));
     backgrounds.append(QPixmap(":/beijing/image/beijing3.webp"));
     backgrounds.append(QPixmap(":/beijing/image/beijing4.jpg"));
     backgrounds.append(QPixmap(":/beijing/image/beijing5.jpg"));
@@ -274,15 +274,33 @@ void first_cham::gameOver(){
 }
 
 void first_cham::showRestartDialog(QWidget *parent) {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(parent, "游戏结束", "是否重新开始游戏？",
-                                  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes)
-    {
-        gameStart();
+    static bool isDialogShown = false; // 静态变量跟踪消息框是否已经弹出
+    if (isDialogShown) {
+        return; // 如果消息框已经弹出，则直接返回，不再弹出新的消息框
     }
-    else {
+
+    // 创建一个问题消息框
+    QMessageBox msgBox(parent); // 将 parent 作为父窗口
+    msgBox.setWindowTitle("游戏结束");
+    msgBox.setText("要再陪爱莉玩一把吗？");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+
+    // 设置消息框的背景颜色
+    msgBox.setStyleSheet("QMessageBox { background-color: pink; }");
+    QFont font("华文琥珀", 16);
+    msgBox.setFont(font);
+
+    // 显示消息框并获取用户的选择
+    int reply = msgBox.exec();
+    isDialogShown = true; // 将标志设置为 true，表示消息框已经弹出
+
+    if (reply == QMessageBox::Yes) {
+        // 用户点击了“Yes”按钮，关闭窗口
+        gameStart();
+    } else {
+        // 用户点击了“No”按钮，或者关闭了消息框，不执行任何操作
         emit restartGameSignal();
-                QWidget::close();
+        this->close();
+        isDialogShown = false; // 将标志重新设置为 false，表示消息框已经关闭
     }
 }

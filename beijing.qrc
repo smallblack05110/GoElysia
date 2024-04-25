@@ -57,5 +57,7 @@
         <file>image/thirteenheroes4.png</file>
         <file>image/thirteenheroes5.png</file>
         <file>image/ailiTricking.png</file>
+        <file>image/beijing2.png</file>
+        <file>image/introbeijing.webp</file>
     </qresource>
 </RCC>

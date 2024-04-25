@@ -5,12 +5,14 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QPainter>
 
 class Introduce : public QWidget
 {
     Q_OBJECT
 public:
     explicit Introduce(QWidget *parent = nullptr);
+    void paintEvent(QPaintEvent *event) override;
 
 signals:
 

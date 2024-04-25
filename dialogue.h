@@ -15,8 +15,10 @@ public:
         QVBoxLayout *layout = new QVBoxLayout(this);
         label = new QLabel("点击鼠标继续对话", this);
         label->setAlignment(Qt::AlignCenter);
-        label->setGeometry(40,20,900,200); // 设置 label 的位置和大小
-        QFont font("宋体", 16);
+        label->setGeometry(40,20,1400,200); // 设置 label 的位置和大小
+        label->raise();
+           label->setAlignment(Qt::AlignLeft); // 设置文本左对齐
+        QFont font("宋体", 15);
         font.setBold(true);
         label->setFont(font);
 
@@ -39,7 +41,7 @@ private slots:
         if (currentDialogIndex < dialogs.size()) {
             label->setText(dialogs[currentDialogIndex]);
         } else {
-            label->setText(" ");
+            label->setText("爱莉希雅：别忘了按x释放终极技能!");
             // 对话结束时停止定时器，并发出对话结束信号
             timer->stop();
             emit dialogueFinished();
@@ -51,7 +53,6 @@ private:
     QStringList dialogs = {
         "爱莉希雅：前方检测到大量崩坏兽能量。",
         "爱莉希雅：要冲了，舰长！"
-        "爱莉希雅：当能量值满时，可以按x释放终极技能！"
     };
     int currentDialogIndex = -1;
     QTimer *timer;
