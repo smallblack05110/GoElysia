@@ -30,9 +30,10 @@ first_cham::first_cham(QWidget *parent) : QWidget(parent)
     updategroundTimer.setInterval(50);
     connect(&updategroundTimer, &QTimer::timeout, this, &first_cham::updateGround);
     dialogueTimer.setInterval(7500);
-    powerTimer.setInterval(3000);
+    powerTimer.setInterval(2000);
     connect(&powerTimer, &QTimer::timeout, this, &first_cham::increasePower);
-
+    gradeTimer.setInterval(1000);
+    connect(&gradeTimer, &QTimer::timeout, this, &first_cham::increaseGrade);
     grounds = new Grounds();
     dialogueWidget = new Dialogue1(this); // 创建 Dialogue1 对象
     dialogueWidget->setParent(this);
@@ -86,12 +87,17 @@ void first_cham::paintEvent(QPaintEvent *event)
     for (auto& obstacle : barriers) {
            painter.drawPixmap(obstacle->barrier.topLeft(), obstacle->getPixmap());
     }
-    painter.setPen(Qt::black);
-       QFont font = painter.font();
-       font.setPointSize(20); // 设置字体大小
-       font.setBold(true);
-       painter.setFont(font);
-       painter.drawText(width() - 200, 50, QString("Power: %1").arg(power)); // 在右上角绘制 power 的数值
+    // 设置字体和颜色
+      painter.setPen(QColor("#2E0854"));
+      QFont font("方正粗黑宋简体", 20); // 设置字体和大小
+      font.setBold(true);
+      painter.setFont(font);
+
+      // 绘制 Power
+      painter.drawText(width() - 250, 50, QString("Power: %1").arg(power)); // 在右上角绘制 power 的数值
+
+      // 绘制 Grade
+      painter.drawText(width() - 250, 80, QString("Grade: %1").arg(grade)); // 在右上角绘制 grade 的数值
 }
 void first_cham::updateGround()
 {
@@ -123,62 +129,62 @@ void first_cham:: keyPressEvent(QKeyEvent *event)
            ailiObject->jump();
 }
     if (event->key() == Qt::Key_Shift) {
-        if(ailiObject->isRushing==false)
-        {
-        for(int i=0;i<10;i++)
-            grounds->grounds[i].setScrollSpeed(40);
-        for (int i = 0; i < barriers.size();i++)
-        {
-            barriers[i]->speed=40;
-        }
-
-        QTimer::singleShot(800, this, [=]() {
-            for(int i = 0; i < 10; ++i) {
-                grounds->grounds[i].setScrollSpeed(20); // 将速度恢复到原始值
-            }
+            if(ailiObject->isRushing==false)
+            {
+            for(int i=0;i<10;i++)
+                grounds->grounds[i].setScrollSpeed(40);
             for (int i = 0; i < barriers.size();i++)
             {
-                barriers[i]->speed=20;
+                barriers[i]->speed=40;
             }
 
-        });
-        }
-        ailiObject->rush();
-       }
-    if (event->key() == Qt::Key_X && power == 100) {
-        if (!ailiObject->isTricking) {
-            power = 0;
-            powerTimer.stop();
-            ailiObject->trick();
-
-            // 检查碰撞并删除相应物体
-            for (int i = 0; i < barriers.size(); ++i) {
-                if (barriers[i]->ifCollision(ailiObject->aili_Rect) == 1) {
-                    delete barriers[i];
-                    barriers.remove(i);
-                    --i; // 因为删除了元素，需要将索引回退
+            QTimer::singleShot(800, this, [=]() {
+                for(int i = 0; i < 10; ++i) {
+                    grounds->grounds[i].setScrollSpeed(20); // 将速度恢复到原始值
                 }
-            }
+                for (int i = 0; i < barriers.size();i++)
+                {
+                    barriers[i]->speed=20;
+                }
 
-            for (int i = 0; i < 10; ++i) {
-                grounds->grounds[i].setScrollSpeed(40);
+            });
             }
-            for (int i = 0; i < barriers.size(); ++i) {
-                barriers[i]->speed = 40;
-            }
+            ailiObject->rush();
+           }
+    if (event->key() == Qt::Key_X && power == 100) {
+            if (!ailiObject->isTricking) {
+                power = 0;
+                powerTimer.stop();
+                ailiObject->trick();
 
-            QTimer::singleShot(10000, this, [=]() {
+                // 检查碰撞并删除相应物体
+                for (int i = 0; i < barriers.size(); ++i) {
+                    if (barriers[i]->ifCollision(ailiObject->aili_Rect) == 1) {
+                        delete barriers[i];
+                        barriers.remove(i);
+                        --i; // 因为删除了元素，需要将索引回退
+                    }
+                }
+
                 for (int i = 0; i < 10; ++i) {
-                    grounds->grounds[i].setScrollSpeed(20);
+                    grounds->grounds[i].setScrollSpeed(40);
                 }
                 for (int i = 0; i < barriers.size(); ++i) {
-                    barriers[i]->speed = 20;
+                    barriers[i]->speed = 40;
                 }
-                powerTimer.start();
-                ailiObject->isTricking = false;
-            });
+
+                QTimer::singleShot(10000, this, [=]() {
+                    for (int i = 0; i < 10; ++i) {
+                        grounds->grounds[i].setScrollSpeed(20);
+                    }
+                    for (int i = 0; i < barriers.size(); ++i) {
+                        barriers[i]->speed = 20;
+                    }
+                    powerTimer.start();
+                    ailiObject->isTricking = false;
+                });
+            }
         }
-    }
 }
 
 void first_cham::storeBarriers(){                        //生成障碍物
@@ -231,6 +237,24 @@ void first_cham::ifCollision(){
         }
     }
 }
+
+void first_cham::increaseGrade()
+{
+    grade += 10; // 每次得分增加 10 分
+
+    // 计算整体的滚动速度增加量
+    int scrollSpeedIncrease = grade / 100 * 3; // 每增加 100 分，滚动速度增加 3
+
+    // 更新地板滚动速度
+    for (int i = 0; i < 10; ++i) {
+        grounds->grounds[i].ground_scroll_speed += scrollSpeedIncrease;
+    }
+
+    // 更新障碍物滚动速度
+    for (auto& obstacle : barriers) {
+        obstacle->speed = grounds->grounds[0].ground_scroll_speed; // 将障碍物速度设置为地板的滚动速度
+    }
+}
 void first_cham::increasePower()
 {
     if(power+5<=100)
@@ -248,13 +272,21 @@ void first_cham::gameStart(){
         grounds->grounds[i].ground_scroll_speed=20;
     }
     power=0;
-
+    grade=0;
     add_Barrier.start();
     barrier_timer.start();
     updateTimer.start();
     updatebackgroundTimer.start();
      updategroundTimer.start();
      powerTimer.start();
+     gradeTimer.start();
+     player = new QMediaPlayer;
+     playlist = new QMediaPlaylist(this);
+     player->setPlaylist(playlist);
+     playlist->setPlaybackMode(QMediaPlaylist::Loop);
+     player->setMedia(QUrl("qrc:/music/music/ChiliChill-Pink-Flavor.wav")); // 指定音频文件路径
+     player->setVolume(50); // 设置音量
+     player->play(); // 播放音乐
     connect(&updateTimer,&QTimer::timeout,[=](){
         updatebarriers();    //更新坐标
         ifCollision();  //碰撞检测
@@ -269,7 +301,9 @@ void first_cham::gameOver(){
     add_Barrier.stop();
     barrier_timer.stop();
     updateTimer.stop();
+    gradeTimer.stop();
     updatebackgroundTimer.stop();
+    player->stop();
     showRestartDialog(this);
 }
 
@@ -282,7 +316,7 @@ void first_cham::showRestartDialog(QWidget *parent) {
     // 创建一个问题消息框
     QMessageBox msgBox(parent); // 将 parent 作为父窗口
     msgBox.setWindowTitle("游戏结束");
-    msgBox.setText("要再陪爱莉玩一把吗？");
+    msgBox.setText(QString("游戏结束！你的分数是 %1，要再陪爱莉玩一把吗？").arg(grade));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 
     // 设置消息框的背景颜色

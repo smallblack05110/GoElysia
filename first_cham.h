@@ -13,6 +13,8 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "ground.h"
 #include "aili.h"
 #include "barriers.h"
@@ -27,6 +29,7 @@ public:
     void paintEvent(QPaintEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     int power;
+    int grade;
     QTimer add_Barrier;
     QTimer barrier_timer;
     QTimer updateTimer;
@@ -34,6 +37,9 @@ public:
     QTimer updategroundTimer;
     QTimer dialogueTimer;
     QTimer powerTimer;
+    QTimer gradeTimer;
+    QMediaPlayer *player;
+    QMediaPlaylist *playlist;
     bool isProtected;
     Grounds *grounds; // 地面对象指针
     aili *ailiObject;
@@ -48,6 +54,7 @@ public:
     void ifCollision();
     void showRestartDialog(QWidget *parent);
     void increasePower();
+    void increaseGrade();
     ~first_cham();
 signals:
     void restartGameSignal();

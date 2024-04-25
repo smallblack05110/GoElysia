@@ -18,10 +18,8 @@ public:
         label->setGeometry(40,20,1400,200); // 设置 label 的位置和大小
         label->raise();
            label->setAlignment(Qt::AlignLeft); // 设置文本左对齐
-        QFont font("宋体", 15);
-        font.setBold(true);
-        label->setFont(font);
-
+        label->setFont(QFont("方正粗黑宋简体", 20));
+        label->setStyleSheet("color: #2E0854; font-size: 25pt;");
         layout->addWidget(label);
 
         // 创建定时器

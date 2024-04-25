@@ -12,7 +12,6 @@ Introduce::Introduce(QWidget *parent) : QWidget(parent)
     titleLabel->setFont(QFont("方正粗黑宋简体", 20, QFont::Bold));
     titleLabel->move(600, 100); // 设置标题标签的位置
     titleLabel->setStyleSheet("color: #2E0854; font-size: 25pt; font-weight: bold;");
-
     // 创建描述标签
     descriptionLabel = new QLabel("我们的世界，均是虚数之树上的叶子，\n"
                                   "叶子飘落进入量子之海，便变成了世界泡，\n"
