@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     Init();
     connect(sta.return1, &QPushButton::clicked, this, &MainWindow::showMainWindow);
     introduceWindow = new Introduce;
+    prize = new Prize;
 
 }
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -66,6 +67,7 @@ void MainWindow::Init()
         "border-color:#800080;"
         "border-style: outset;"
                     );
+        connect(pri, &QPushButton::clicked, this, &MainWindow::onPriClicked);
         QPushButton *prod=new QPushButton;
         prod->setParent(this);
         prod->setText("      游戏介绍");//使文本和图标保持距离
@@ -119,6 +121,7 @@ void MainWindow::Init()
        connect(exit,&QPushButton::clicked,this,&MainWindow::onExitClicked);
        connect(sta,&QPushButton::clicked,this,&MainWindow::onStaClicked);
     }
+
 }
 void MainWindow::onExitClicked()
 {
@@ -148,6 +151,10 @@ void MainWindow::onStaClicked()
     sta.show();
 }
 
+void MainWindow::onPriClicked()
+{
+    prize->show();
+}
 void MainWindow::onIntroClicked()
 {
 

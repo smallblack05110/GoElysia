@@ -26,6 +26,7 @@ SOURCES += \
     introduce.cpp \
     main.cpp \
     mainwindow.cpp \
+    prize.cpp \
     startwindow.cpp
 
 HEADERS += \
@@ -36,6 +37,7 @@ HEADERS += \
     ground.h \
     introduce.h \
     mainwindow.h \
+    prize.h \
     startwindow.h
 
 FORMS += \

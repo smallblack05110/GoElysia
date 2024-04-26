@@ -42,7 +42,7 @@ public:
     QMediaPlaylist *playlist;
     bool isProtected;
     Grounds *grounds; // 地面对象指针
-    aili *ailiObject;
+    Aili *ailiObject;
     diedPeople *die1;
     QVector<barriers*>barriers;//管理屏幕中的障碍物
     Dialogue1 *dialogueWidget;
@@ -55,6 +55,7 @@ public:
     void showRestartDialog(QWidget *parent);
     void increasePower();
     void increaseGrade();
+    bool isDiaBoxShow;
     ~first_cham();
 signals:
     void restartGameSignal();

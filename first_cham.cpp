@@ -222,7 +222,6 @@ void first_cham::ifCollision(){
                     break;
                 case 1: // 障碍物
                     gameOver();
-                    collisionResult=0;
                     break;
                 case 2: // thirteenheroes
                     if (power + 20 <= 100) {
@@ -264,8 +263,9 @@ void first_cham::increasePower()
 }
 
 void first_cham::gameStart(){
+    isDiaBoxShow=false;
     barriers.clear();
-    ailiObject = new aili(this);
+    ailiObject = new Aili(this);
     ailiObject->setPosition(50,470);
     for(int i=0;i<10;i++)
     {
@@ -304,12 +304,13 @@ void first_cham::gameOver(){
     gradeTimer.stop();
     updatebackgroundTimer.stop();
     player->stop();
+    barriers.clear();
     showRestartDialog(this);
 }
 
 void first_cham::showRestartDialog(QWidget *parent) {
-    static bool isDialogShown = false; // 静态变量跟踪消息框是否已经弹出
-    if (isDialogShown) {
+    isDiaBoxShow = false; // 静态变量跟踪消息框是否已经弹出
+    if (isDiaBoxShow) {
         return; // 如果消息框已经弹出，则直接返回，不再弹出新的消息框
     }
 
@@ -326,15 +327,16 @@ void first_cham::showRestartDialog(QWidget *parent) {
 
     // 显示消息框并获取用户的选择
     int reply = msgBox.exec();
-    isDialogShown = true; // 将标志设置为 true，表示消息框已经弹出
+    isDiaBoxShow = true; // 将标志设置为 true，表示消息框已经弹出
 
     if (reply == QMessageBox::Yes) {
         // 用户点击了“Yes”按钮，关闭窗口
         gameStart();
-    } else {
+    }
+    else
+    {
         // 用户点击了“No”按钮，或者关闭了消息框，不执行任何操作
         emit restartGameSignal();
         this->close();
-        isDialogShown = false; // 将标志重新设置为 false，表示消息框已经关闭
     }
 }

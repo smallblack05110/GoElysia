@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include "startwindow.h"
 #include "introduce.h"
+#include "prize.h"
 #include <QMainWindow>
 #include <QPushButton>
 #include <QPainter>
@@ -22,15 +23,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     startwindow sta;
     Introduce *introduceWindow;
+    Prize *prize;
     void Init();
     void paintEvent(QPaintEvent *event);
     void showMainWindow();
     void onExitClicked();
     void onStaClicked();
     void onIntroClicked();
+    void onPriClicked();
     ~MainWindow();
-
 private:
     Ui::MainWindow *ui;
+
+signals:
+
 };
 #endif // MAINWINDOW_H

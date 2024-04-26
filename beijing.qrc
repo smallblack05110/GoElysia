@@ -59,5 +59,7 @@
         <file>image/ailiTricking.png</file>
         <file>image/beijing2.png</file>
         <file>image/introbeijing.webp</file>
+        <file>image/pricebeijing.webp</file>
+        <file>image/prizeimg.jpg</file>
     </qresource>
 </RCC>
