@@ -46,9 +46,9 @@ Prize::Prize(QWidget *parent) : QWidget(parent)
     Prize1exp->move(100,300);
     Prize1exp->setFont(QFont("方正粗黑宋简体", 12));
     Prize1exp->setStyleSheet("color: pink;");
-    Prize1->setVisible(false);
-    Prize1text->setVisible(false);
-    Prize1exp->setVisible(false);
+//    Prize1->setVisible(false);
+//    Prize1text->setVisible(false);
+//    Prize1exp->setVisible(false);
 }
 
 void Prize::paintEvent(QPaintEvent *event)

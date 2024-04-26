@@ -44,33 +44,32 @@ public:
     Grounds *grounds; // 地面对象指针
     Aili *ailiObject;
     diedPeople *die1;
-    QVector<barriers*>barriers;//管理屏幕中的障碍物
-    Dialogue1 *dialogueWidget;
-    void updateGround();
-    void updatebarriers();
-    void storeBarriers();
-    void gameOver();
-    void gameStart();
-    void ifCollision();
-    void showRestartDialog(QWidget *parent);
-    void increasePower();
-    void increaseGrade();
-    bool isDiaBoxShow;
-    ~first_cham();
+    QVector   <barriers*>barriers; // 管理屏幕中的障碍物的向量
+    Dialogue1 *dialogueWidget; // 对话框窗口指针
+    void updateGround(); // 更新地面状态
+    void updatebarriers(); // 更新障碍物状态
+    void storeBarriers(); // 存储障碍物状态
+    void gameOver(); // 游戏结束处理函数
+    void gameStart(); // 游戏开始处理函数
+    void ifCollision(); // 碰撞检测函数
+    void showRestartDialog(QWidget *parent); // 显示重新开始对话框
+    void increasePower(); // 增加能量函数
+    void increaseGrade(); // 增加分数函数
+    bool isDiaBoxShow; // 对话框是否显示标志
+    ~first_cham(); // 析构函数
+
 signals:
-    void restartGameSignal();
+    void restartGameSignal(); // 重新开始游戏信号
 
 private slots:
-    void changeBackground();
-    void updateBackground();
+    void changeBackground(); // 切换背景
+    void updateBackground(); // 更新背景
 
 private:
     QTimer *timer;
-    QVector<QPixmap> backgrounds; // 存储背景图片
+    QVector<QPixmap> backgrounds; // 存储背景图片的向量
     int currentBackgroundIndex;   // 当前背景图片索引
 
 };
 
 #endif // FIRST_CHAM_H
-
-
