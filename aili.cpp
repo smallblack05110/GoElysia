@@ -67,7 +67,7 @@ void Aili::jump()
             aili_Rect.moveTo(aili_Rect.x(), currentY);
 
             // 到达目标位置时停止上升定时器，启动下降定时器
-            if (currentY <= targetY) {
+            if (currentY <= 179) {
                 riseTimer->stop();
                 delete riseTimer; // 删除上升定时器对象，释放内存
 

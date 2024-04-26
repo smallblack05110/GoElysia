@@ -1,4 +1,5 @@
 #include "introduce.h"
+//实现游戏介绍功能
 Introduce::Introduce(QWidget *parent) : QWidget(parent)
 {
     // 设置窗口标题
@@ -21,8 +22,8 @@ Introduce::Introduce(QWidget *parent) : QWidget(parent)
                                   "使用‘w’键，你将实现跳跃效果;\n"
                                   "使用‘shift’键，你将实现滑铲俯冲效果;\n"
                                   "当power值达到100时，按下‘x’键，你将获得一段时间的无敌。\n"
-                                  "路上不仅有阻挡你的障碍物，还有能够帮助你的伙伴，接受这些伙伴的帮助。\n"
-                                  "遇到他们时，请直接接受他们的好意（不要使用‘w’或是‘shift’键)。\n", this);
+                                  "路上不仅有阻挡你的障碍物，还有能够帮助你的伙伴。\n"
+                                  "遇到他们时，请接受他们的好意。\n", this);
 //    descriptionLabel->setWordWrap(true); // 自动换行
     descriptionLabel->move(50, 150); // 设置描述标签的位置
     descriptionLabel->resize(1300, 600); // 设置描述标签的大小

@@ -26,13 +26,15 @@ void Grounds::calculatePositions()
     for (int i = 0; i < 10; ++i) {
         grounds[i].calculatePosition(); // 计算每个地面对象的位置
 
-        // 如果地面对象超出左边界，将其移动到最右边
+        // 如果地面对象超出左边界，将其移动到最右边，从而实现循环效果
         if (grounds[i].ground_posX <= -grounds[i].ground.width()) {
             grounds[i].ground_posX += 700 * 9;
             distance += 5; // 更新距离
         }
     }
 }
+
+//重新设置地面的滚动速度
 void Ground::setScrollSpeed(int speed)
 {
     ground_scroll_speed = speed;

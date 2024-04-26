@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QPainter>
-
+//实现游戏介绍功能
 class Introduce : public QWidget
 {
     Q_OBJECT

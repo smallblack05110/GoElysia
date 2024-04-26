@@ -4,7 +4,7 @@
 #include <QPixmap>
 #include <QRect>
 
-// 单个地面类
+// 地面基类
 class Ground
 {
 public:
@@ -18,17 +18,16 @@ public:
     void setScrollSpeed(int speed);
 };
 
-// 多个地面管理类
+// 将地面连起来，实现滚动效果
 class Grounds
 {
 public:
-    Grounds(); // 构造函数
+    Grounds();
     void calculatePositions(); // 计算多个地面位置
 
 public:
     Ground grounds[10]; // 存储多个地面对象的数组
     int distance; // 距离
-    int powerint;
 };
 
 #endif // GROUND_H

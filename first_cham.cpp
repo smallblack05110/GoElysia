@@ -2,6 +2,7 @@
 
 first_cham::first_cham(QWidget *parent) : QWidget(parent)
 {
+    // 初始化窗口大小和标题
     currentBackgroundIndex = 0;
     setFixedSize(1400, 900);
     setWindowTitle("冲鸭！粉色妖精小姐！");
@@ -17,7 +18,6 @@ first_cham::first_cham(QWidget *parent) : QWidget(parent)
     updateBackground();
 
     // 创建定时器并连接槽函数
-
     updatebackgroundTimer.setInterval(15000);
     connect(&updatebackgroundTimer, &QTimer::timeout, this, &first_cham::changeBackground);
     updatebackgroundTimer.start(15000); // 15秒触发一次
@@ -38,7 +38,6 @@ first_cham::first_cham(QWidget *parent) : QWidget(parent)
     dialogueWidget = new Dialogue1(this); // 创建 Dialogue1 对象
     dialogueWidget->setParent(this);
     dialogueWidget->startDialog();
-
 }
 
 first_cham::~first_cham()
@@ -88,17 +87,18 @@ void first_cham::paintEvent(QPaintEvent *event)
            painter.drawPixmap(obstacle->barrier.topLeft(), obstacle->getPixmap());
     }
     // 设置字体和颜色
-      painter.setPen(QColor("#2E0854"));
-      QFont font("方正粗黑宋简体", 20); // 设置字体和大小
-      font.setBold(true);
-      painter.setFont(font);
+    painter.setPen(QColor("#2E0854"));
+    QFont font("方正粗黑宋简体", 20); // 设置字体和大小
+    font.setBold(true);
+    painter.setFont(font);
 
-      // 绘制 Power
-      painter.drawText(width() - 250, 50, QString("Power: %1").arg(power)); // 在右上角绘制 power 的数值
+    // 绘制 Power
+    painter.drawText(width() - 250, 50, QString("Power: %1").arg(power)); // 在右上角绘制 power 的数值
 
-      // 绘制 Grade
-      painter.drawText(width() - 250, 80, QString("Grade: %1").arg(grade)); // 在右上角绘制 grade 的数值
+    // 绘制 Grade
+    painter.drawText(width() - 250, 80, QString("Grade: %1").arg(grade)); // 在右上角绘制 grade 的数值
 }
+
 void first_cham::updateGround()
 {
     // 更新地面位置
@@ -107,12 +107,11 @@ void first_cham::updateGround()
     // 重新绘制窗口
     update();
 }
+
 void first_cham::updatebarriers()
 {
-
     for (int i = 0; i < barriers.size();) {
-        if (barriers[i]->ifGoOut())
-         {
+        if (barriers[i]->ifGoOut()) {
             delete barriers[i];
             barriers.remove(i);
         } else {
@@ -173,7 +172,7 @@ void first_cham:: keyPressEvent(QKeyEvent *event)
                     barriers[i]->speed = 40;
                 }
 
-                QTimer::singleShot(10000, this, [=]() {
+                QTimer::singleShot(9000, this, [=]() {
                     for (int i = 0; i < 10; ++i) {
                         grounds->grounds[i].setScrollSpeed(20);
                     }
@@ -211,6 +210,7 @@ void first_cham::storeBarriers(){                        //生成障碍物
     }
 }
 
+//检测碰撞和分配效果
 void first_cham::ifCollision(){
     if (!ailiObject->isTricking) {
         for (int i = 0; i < barriers.size();) {
@@ -223,7 +223,7 @@ void first_cham::ifCollision(){
                 case 1: // 障碍物
                     gameOver();
                     break;
-                case 2: // thirteenheroes
+                case 2: // 十三英桀
                     if (power + 20 <= 100) {
                         power += 20;
                     } else {
@@ -242,7 +242,7 @@ void first_cham::increaseGrade()
     grade += 10; // 每次得分增加 10 分
 
     // 计算整体的滚动速度增加量
-    int scrollSpeedIncrease = grade / 100 * 3; // 每增加 100 分，滚动速度增加 3
+    int scrollSpeedIncrease = grade / 100 * 1; // 每增加 100 分，滚动速度增加 1
 
     // 更新地板滚动速度
     for (int i = 0; i < 10; ++i) {
@@ -254,6 +254,7 @@ void first_cham::increaseGrade()
         obstacle->speed = grounds->grounds[0].ground_scroll_speed; // 将障碍物速度设置为地板的滚动速度
     }
 }
+
 void first_cham::increasePower()
 {
     if(power+5<=100)
@@ -262,6 +263,7 @@ void first_cham::increasePower()
         power=100;
 }
 
+//游戏开始
 void first_cham::gameStart(){
     isDiaBoxShow=false;
     barriers.clear();
@@ -293,6 +295,8 @@ void first_cham::gameStart(){
         update();          //刷新屏幕
     });
 }
+
+//游戏结束
 void first_cham::gameOver(){
     for(int i=0;i<10;i++)
     {
@@ -308,6 +312,7 @@ void first_cham::gameOver(){
     showRestartDialog(this);
 }
 
+//游戏结束时弹出对话框
 void first_cham::showRestartDialog(QWidget *parent) {
     isDiaBoxShow = false; // 静态变量跟踪消息框是否已经弹出
     if (isDiaBoxShow) {
@@ -337,6 +342,6 @@ void first_cham::showRestartDialog(QWidget *parent) {
     {
         // 用户点击了“No”按钮，或者关闭了消息框，不执行任何操作
         emit restartGameSignal();
-        this->close();
+        delete this;
     }
 }

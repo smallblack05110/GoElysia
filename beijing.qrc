@@ -61,5 +61,9 @@
         <file>image/introbeijing.webp</file>
         <file>image/pricebeijing.webp</file>
         <file>image/prizeimg.jpg</file>
+        <file>image/pri2beijing.jpg</file>
+        <file>image/pri3beijing.jpg</file>
+        <file>image/pri4beijing.jpg</file>
+        <file>image/pri5beijing.jpg</file>
     </qresource>
 </RCC>

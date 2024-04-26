@@ -206,7 +206,7 @@ int thirteenheroes::ifCollision(QRect r)
 {
     // 调整矩形边界
     QRect adjustedRect(r.x() + 250, r.y() + 400, r.width() - 180, r.height() - 400);
-    QRect adjustedRect2(barrier.x() + 250, barrier.y() + 400, barrier.width() - 180, barrier.height() - 400);
+    QRect adjustedRect2(barrier.x() + 250, barrier.y() + 420, barrier.width() - 180, barrier.height() - 400);
 
     // 进行碰撞检测
     if (adjustedRect2.intersects(adjustedRect)) {
